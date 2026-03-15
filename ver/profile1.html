@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perfil — M Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/profile.css">
+</head>
+<body>
+
+<nav>
+  <a class="nav-back" href="index.html">
+    <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M11 6H1M6 1L1 6l5 5"/></svg>
+    Volver
+  </a>
+  <div class="nav-logo">M Port<span>.</span>folio</div>
+  <div class="nav-num" id="nav-num"></div>
+</nav>
+
+<div id="content"></div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lb-close" id="lb-close">✕</button>
+  <button class="lb-nav lb-prev" id="lb-prev">
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M11 2L5 8l6 6"/></svg>
+  </button>
+  <img id="lb-img" src="" alt="">
+  <button class="lb-nav lb-next" id="lb-next">
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 2l6 6-6 6"/></svg>
+  </button>
+</div>
+
+<script>
+  /* ── Base de datos de modelos ── */
+  const models = {
+    tiffany: {
+      num:    '01',
+      tag:    'Streaming · Proyecto 01',
+      name:   'Tiffany<br>Spears',
+      url:    'livejasmin.com/TiffanySpears',
+      link:   'https://www.livejasmin.com/en/free/chat/TiffanySpears?languageChange=1',
+      folder: 'images/tiffany/',
+      file:   'tiffany',
+      ext:    'jpg',
+      fallback: 'images/msc.jpg',
+    },
+    kathe: {
+      num:    '02',
+      tag:    'Streaming · Proyecto 02',
+      name:   'Kathe<br>Salvatore',
+      url:    'livejasmin.com/KatheSalvatore',
+      link:   'https://www.livejasmin.com/en/chat/KatheSalvatore',
+      folder: 'images/kathe/',
+      file:   'kathe',
+      ext:    'jpg',
+      fallback: 'images/kts.jpg',
+    },
+    paula: {
+      num:    '03',
+      tag:    'Social Media · Proyecto 03',
+      name:   'Paula<br>Stivens',
+      url:    'paulastivens.com',
+      link:   'https://www.livejasmin.com/en/chat/PaulaStivens?languageChange=1',
+      folder: 'images/paula/',
+      file:   'paula',
+      ext:    'jpg',
+      fallback: 'images/sps.jpg',
+    },
+    caylin: {
+      num:    '04',
+      tag:    'Social Media · Proyecto 04',
+      name:   'Caylin<br>&amp; Liza',
+      url:    'es.recu.me/caylin_and_liza',
+      link:   'https://es.cumcams.cc/performer/victoriacolin',
+      folder: 'images/caylin/', 
+      file:   'caylin',
+      ext:    'jpg',
+      fallback: 'images/lvc.jpg', 
+    }, 
+    lea: {
+      num:    '05',
+      tag:    'Streaming · Proyecto 05',
+      name:   'Lea<br>Noira',
+      url:    'livejasmin.com/LeaNoira',
+      link:   'https://www.livejasmin.com/en/free/chat/LeaNoira',
+      folder: 'images/lea/',
+      file:   'lea',
+      ext:    'webp',
+      fallback: 'images/kt.jpg',
+    },
+    lizz: {
+      num:    '06',
+      tag:    'Streaming · Proyecto 06',
+      name:   'Lizz<br>Connor',
+      url:    'livejasmin.com/LizzConnor',
+      link:   'https://www.livejasmin.com/en/free/chat/LizzConnor',
+      folder: 'images/lea/',
+      file:   'lea',
+      ext:    'jpg',
+      fallback: 'images/ksc.jpg',
+    },
+    alaya: {
+      num:    '07',
+      tag:    'Streaming · Proyecto 07',
+      name:   'Alaya<br>1991',
+      url:    'savemycam.com/alaya1991',
+      link:   'https://savemycam.com/alaya1991',
+      folder: 'images/alaya/',
+      file:   'alaya',
+      ext:    'jpg',
+      fallback: 'images/la.jpg',
+    },
+    michell: {
+      num:    '08',
+      tag:    'Streaming · Proyecto 08',
+      name:   'Michell<br>Ass',
+      url:    'camsoda.com/michell-ass',
+      link:   'https://www.camsoda.com/michell-ass/bio',
+      folder: 'images/michell/',
+      file:   'michell',
+      ext:    'webp',
+      fallback: 'images/ma.png',
+    },
+  };
+
+  /* ── Leer ?id= de la URL ── */
+  const params = new URLSearchParams(window.location.search);
+  const id     = params.get('id');
+  const m      = models[id];
+
+  const content = document.getElementById('content');
+  const lbEl    = document.getElementById('lightbox');
+  const lbImg   = document.getElementById('lb-img');
+
+  /* ── ID inválido ── */
+  if (!m) {
+    content.innerHTML = `
+      <div class="not-found">
+        <h2>Perfil no encontrado</h2>
+        <a href="index.html">← Volver al portfolio</a>
+      </div>`;
+  } else {
+
+    /* Título de pestaña */
+    document.title = m.name.replace('<br>', ' ') + ' — M Portfolio';
+    document.getElementById('nav-num').textContent = m.num + ' / 08';
+
+    /* Esqueleto de la página */
+    content.innerHTML = `
+      <section class="hero">
+        <div class="hero-img-wrap">
+          <img id="hero-img" src="${m.folder}${m.file}(1).${m.ext}" alt="${m.name.replace('<br>',' ')}" onerror="this.src='${m.fallback}'">
+        </div>
+        <div class="hero-info">
+          <div class="profile-tag">${m.tag}</div>
+          <div class="profile-name">${m.name}</div>
+          <div class="profile-url">${m.url}</div>
+          <a class="btn-visit" href="${m.link}" target="_blank" rel="noopener">
+            Visitar perfil
+            <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 7h12M7 1l6 6-6 6"/></svg>
+          </a>
+        </div>
+      </section>
+
+      <div class="gallery-section">
+        <div class="section-label">Galería de fotos — <span id="photo-count">cargando...</span></div>
+        <div class="gallery" id="gallery"></div>
+      </div>
+
+      <div class="profile-footer">
+        <span>© 2026 M Portfolio</span>
+        <a class="btn-visit" href="${m.link}" target="_blank" rel="noopener">
+          Visitar perfil
+          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M1 7h12M7 1l6 6-6 6"/></svg>
+        </a>
+      </div>`;
+
+    /* ── Carga dinámica de fotos ── */
+    const galleryEl  = document.getElementById('gallery');
+    const photoCount = document.getElementById('photo-count');
+    const loaded     = [];
+
+    function checkAndAdd(index) {
+      const src   = `${m.folder}${m.file}(${index}).${m.ext}`;
+      const probe = new Image();
+
+      probe.onload = function () {
+        loaded.push(src);
+        const i    = loaded.length - 1;
+        const item = document.createElement('div');
+        item.className   = 'gallery-item' + (index === 1 ? ' featured' : '');
+        item.dataset.idx = i;
+        item.innerHTML   = `<img src="${src}" alt="${m.file} ${index}">`;
+        galleryEl.appendChild(item);
+        photoCount.textContent = loaded.length + ' foto' + (loaded.length !== 1 ? 's' : '');
+        checkAndAdd(index + 1);
+      };
+
+      probe.onerror = function () {
+        if (loaded.length === 0) photoCount.textContent = 'sin fotos';
+      };
+
+      probe.src = src;
+    }
+
+    checkAndAdd(1);
+
+    /* ── Lightbox ── */
+    let cur = 0;
+
+    function openLb(i) {
+      cur = i;
+      lbImg.src = loaded[cur];
+      lbEl.classList.add('open');
+    }
+    function closeLb() { lbEl.classList.remove('open'); }
+    function lbNav(d) {
+      if (!loaded.length) return;
+      cur = (cur + d + loaded.length) % loaded.length;
+      lbImg.src = loaded[cur];
+    }
+
+    galleryEl.addEventListener('click', function (e) {
+      const item = e.target.closest('.gallery-item');
+      if (item) openLb(Number(item.dataset.idx));
+    });
+
+    document.getElementById('lb-close').addEventListener('click', closeLb);
+    document.getElementById('lb-prev').addEventListener('click', function (e) { e.stopPropagation(); lbNav(-1); });
+    document.getElementById('lb-next').addEventListener('click', function (e) { e.stopPropagation(); lbNav(1);  });
+    lbEl.addEventListener('click', function (e) { if (e.target === lbEl || e.target === lbImg) closeLb(); });
+
+    document.addEventListener('keydown', function (e) {
+      if (!lbEl.classList.contains('open')) return;
+      if (e.key === 'Escape')     closeLb();
+      if (e.key === 'ArrowLeft')  lbNav(-1);
+      if (e.key === 'ArrowRight') lbNav(1);
+    });
+  }
+</script>
+
+</body>
+</html>
