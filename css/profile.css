@@ -154,3 +154,13 @@
   .video-grid.single .video-item {
     max-width: 640px;
   }
+    /* Bloquea el botón de pop-out de Drive */
+  /* .video-item::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 60px;
+    height: 40px;
+    z-index: 10;
+  } */
