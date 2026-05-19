@@ -9,7 +9,44 @@
     href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Mono:wght@300;400;500&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="css/profile.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/exif-js/2.3.0/exif.js"></script>
+  <style>
+    .gallery-item { position: relative; }
 
+    .photo-date {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 55%, transparent 100%);
+      color: #fff;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 400;
+      letter-spacing: 0.06em;
+      padding: 36px 10px 10px;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .gallery-item:hover .photo-date { opacity: 1; }
+
+    .photo-date .date-label {
+      display: block;
+      font-size: 0.58rem;
+      opacity: 0.75;
+      text-transform: uppercase;
+      margin-bottom: 3px;
+      letter-spacing: 0.12em;
+    }
+    .photo-date .date-value {
+      display: block;
+      font-size: 0.78rem;
+    }
+  </style>
 </head>
 
 <body>
@@ -47,146 +84,75 @@
     /* ── Base de datos de modelos ── */
     const models = {
       tiffany: {
-        num: '01',
-        tag: 'Streaming · Proyecto 01',
-        name: 'Tiffany<br>Spears',
+        num: '01', tag: 'Streaming · Proyecto 01', name: 'Tiffany<br>Spears',
         url: 'livejasmin.com/TiffanySpears',
         link: 'https://www.livejasmin.com/en/free/chat/TiffanySpears?languageChange=1',
-        folder: 'images/tiffany/',
-        file: 'tiffany',
-        ext: 'jpg',
-        fallback: 'images/msc.jpg',
+        folder: 'images/tiffany/', file: 'tiffany', ext: 'jpg', fallback: 'images/msc.jpg',
         videos: ['18phBo7-XCKadrZfY5JlbnvIUrfqm9ZpY'],
       },
       kathe: {
-        num: '02',
-        tag: 'Streaming · Proyecto 02',
-        name: 'Kathe<br>Salvatore',
+        num: '02', tag: 'Streaming · Proyecto 02', name: 'Kathe<br>Salvatore',
         url: 'livejasmin.com/KatheSalvatore',
         link: 'https://www.livejasmin.com/en/chat/KatheSalvatore',
-        folder: 'images/kathe/',
-        file: 'kathe',
-        ext: 'jpg',
-        fallback: 'images/kts.jpg',
-        videos: [
-          '1eABQFC8D9iGyzdBBHRB3nLsONodx7uM1',
-          '1kwk5b_bYS533H_kWcDyLSp1aL9x-WiO2',
-          '1iFHzhDRoqHlcUgOpxRcNQfUoGOCdWW_L',
-        ],
+        folder: 'images/kathe/', file: 'kathe', ext: 'jpg', fallback: 'images/kts.jpg',
+        videos: ['1eABQFC8D9iGyzdBBHRB3nLsONodx7uM1','1kwk5b_bYS533H_kWcDyLSp1aL9x-WiO2','1iFHzhDRoqHlcUgOpxRcNQfUoGOCdWW_L'],
       },
       paula: {
-        num: '03',
-        tag: 'Social Media · Proyecto 03',
-        name: 'Paula<br>Stivens',
+        num: '03', tag: 'Social Media · Proyecto 03', name: 'Paula<br>Stivens',
         url: 'paulastivens.com',
         link: 'https://www.livejasmin.com/en/chat/PaulaStivens?languageChange=1',
-        folder: 'images/paula/',
-        file: 'paula',
-        ext: 'jpg',
-        fallback: 'images/sps.jpg',
-        videos: [
-          '1yifQMo2-MfsP4y9S_s0WCcpX8BKu8ASK',
-          '18UN5ZVGIzX4jI8ZTDUSGkZ1FI4bLYnY2',
-        ],
+        folder: 'images/paula/', file: 'paula', ext: 'jpg', fallback: 'images/sps.jpg',
+        videos: ['1yifQMo2-MfsP4y9S_s0WCcpX8BKu8ASK','18UN5ZVGIzX4jI8ZTDUSGkZ1FI4bLYnY2'],
       },
       caylin: {
-        num: '04',
-        tag: 'Social Media · Proyecto 04',
-        name: 'Caylin<br>&amp; Liza',
+        num: '04', tag: 'Social Media · Proyecto 04', name: 'Caylin<br>&amp; Liza',
         url: 'es.recu.me/caylin_and_liza',
         link: 'https://es.cumcams.cc/performer/victoriacolin',
-        folder: 'images/caylin/',
-        file: 'caylin',
-        ext: 'jpg',
-        fallback: 'images/lvc.jpg',
-        videos: [
-          '17t8GDJz9n6GxFB9-8MTIeOgzdoNJpIna',
-          '18BBOHvSu2iAt47GTxotY_ia5r2QAz2Sy',
-          '1w_3yrSGILBeVh2XeId2r4tyfWwLEji6g',
-        ],
+        folder: 'images/caylin/', file: 'caylin', ext: 'jpg', fallback: 'images/lvc.jpg',
+        videos: ['17t8GDJz9n6GxFB9-8MTIeOgzdoNJpIna','18BBOHvSu2iAt47GTxotY_ia5r2QAz2Sy','1w_3yrSGILBeVh2XeId2r4tyfWwLEji6g'],
       },
       lea: {
-        num: '05',
-        tag: 'Streaming · Proyecto 05',
-        name: 'Lea<br>Noira',
+        num: '05', tag: 'Streaming · Proyecto 05', name: 'Lea<br>Noira',
         url: 'livejasmin.com/LeaNoira',
         link: 'https://www.livejasmin.com/en/free/chat/LeaNoira',
-        folder: 'images/lea/',
-        file: 'lea',
-        ext: 'webp',
-        fallback: 'images/kt.jpg',
+        folder: 'images/lea/', file: 'lea', ext: 'webp', fallback: 'images/kt.jpg',
         videos: ['1UTc_cKwxNXcIiBrLRhfzjvdUrX45_0tW'],
       },
       lizz: {
-        num: '06',
-        tag: 'Streaming · Proyecto 06',
-        name: 'Lizz<br>Connor',
+        num: '06', tag: 'Streaming · Proyecto 06', name: 'Lizz<br>Connor',
         url: 'livejasmin.com/LizzConnor',
         link: 'https://www.livejasmin.com/en/free/chat/LizzConnor',
-        folder: 'images/lea/',
-        file: 'lea',
-        ext: 'jpg',
-        fallback: 'images/ksc.jpg',
+        folder: 'images/lea/', file: 'lea', ext: 'jpg', fallback: 'images/ksc.jpg',
         videos: ['1so4uMxG2QKH2Fv0LxSPc5gzR2zFn94gV'],
       },
       alaya: {
-        num: '07',
-        tag: 'Streaming · Proyecto 07',
-        name: 'Alaya<br>1991',
-        url: 'savemycam.com/alaya1991',
-        link: 'https://savemycam.com/alaya1991',
-        folder: 'images/alaya/',
-        file: 'alaya',
-        ext: 'jpg',
-        fallback: 'images/la.jpg',
+        num: '07', tag: 'Streaming · Proyecto 07', name: 'Alaya<br>1991',
+        url: 'savemycam.com/alaya1991', link: 'https://savemycam.com/alaya1991',
+        folder: 'images/alaya/', file: 'alaya', ext: 'jpg', fallback: 'images/la.jpg',
         videos: [],
       },
       michell: {
-        num: '08',
-        tag: 'Streaming · Proyecto 08',
-        name: 'Michell<br>Ass',
-        url: 'camsoda.com/michell-ass',
-        link: 'https://www.camsoda.com/michell-ass/bio',
-        folder: 'images/michell/',
-        file: 'michell',
-        ext: 'webp',
-        fallback: 'images/ma.png',
+        num: '08', tag: 'Streaming · Proyecto 08', name: 'Michell<br>Ass',
+        url: 'camsoda.com/michell-ass', link: 'https://www.camsoda.com/michell-ass/bio',
+        folder: 'images/michell/', file: 'michell', ext: 'webp', fallback: 'images/ma.png',
         videos: [],
       },
       alicebets: {
-        num: '09',
-        tag: 'Streaming · Proyecto 09',
-        name: 'Alice<br>bets',
-        url: 'livejasmin.com/alicebets',
-        link: 'https://www.livejasmin.com/alicebets',
-        folder: 'images/alicebets/',
-        file: 'alicebets',
-        ext: 'jpg',
-        fallback: 'images/alice.png',
+        num: '09', tag: 'Streaming · Proyecto 09', name: 'Alice<br>bets',
+        url: 'livejasmin.com/alicebets', link: 'https://www.livejasmin.com/alicebets',
+        folder: 'images/alicebets/', file: 'alicebets', ext: 'jpg', fallback: 'images/alice.png',
         videos: ['1gLwNcdw9ttXg6KOmJ8-VRHjPD0HiP5p7'],
       },
       allison: {
-        num: '10',
-        tag: 'Streaming · Proyecto 10',
-        name: 'Alison<br>hills',
-        url: 'livejasmin.com/alisonhills',
-        link: 'https://www.livejasmin.com/alisonhills',
-        folder: 'images/allison/',
-        file: 'allison-hill',
-        ext: 'webp',
-        fallback: 'images/allison.png',
+        num: '10', tag: 'Streaming · Proyecto 10', name: 'Alison<br>hills',
+        url: 'livejasmin.com/alisonhills', link: 'https://www.livejasmin.com/alisonhills',
+        folder: 'images/allison/', file: 'allison-hill', ext: 'webp', fallback: 'images/allison.png',
         videos: [],
       },
       emily: {
-        num: '11',
-        tag: 'Streaming · Proyecto 11',
-        name: 'Emily<br>red',
-        url: 'livejasmin.com/emilyred',
-        link: 'https://www.livejasmin.com/emilyred',
-        folder: 'images/emily/',
-        file: 'emilyred',
-        ext: 'webp',
-        fallback: 'images/emily.png',
+        num: '11', tag: 'Streaming · Proyecto 11', name: 'Emily<br>red',
+        url: 'livejasmin.com/emilyred', link: 'https://www.livejasmin.com/emilyred',
+        folder: 'images/emily/', file: 'emilyred', ext: 'webp', fallback: 'images/emily.png',
         videos: [],
       },
     };
@@ -200,6 +166,55 @@
     const lbEl = document.getElementById('lightbox');
     const lbImg = document.getElementById('lb-img');
 
+    /* ── Formatea string EXIF "YYYY:MM:DD HH:MM:SS" a texto legible ── */
+    function formatExifDate(raw) {
+      if (!raw) return null;
+      const months = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+      const [datePart, timePart] = raw.split(' ');
+      const [y, mo, d] = datePart.split(':');
+      if (!y || !mo || !d) return raw;
+      const hm = timePart ? timePart.slice(0, 5) : '';
+      return `${parseInt(d)} ${months[parseInt(mo)-1]} ${y}${hm ? '  ·  ' + hm : ''}`;
+    }
+
+    /* ── Lee EXIF y actualiza el elemento de fecha ── */
+    function attachExifDate(imgEl, dateEl, photoIndex) {
+      const valueEl = dateEl.querySelector('.dv');
+      const fallback = `Foto ${photoIndex}`;
+
+      /* Timeout: si en 2s no hay respuesta EXIF, mostrar fallback */
+      const timer = setTimeout(() => {
+        if (valueEl.textContent === 'leyendo…') valueEl.textContent = fallback;
+      }, 2000);
+
+      function tryRead() {
+        try {
+          EXIF.getData(imgEl, function () {
+            const raw = EXIF.getTag(this, 'DateTimeOriginal') || EXIF.getTag(this, 'DateTime');
+            clearTimeout(timer);
+            if (raw) {
+              valueEl.textContent = formatExifDate(raw);
+            } else {
+              valueEl.textContent = fallback;
+            }
+          });
+        } catch(e) {
+          clearTimeout(timer);
+          valueEl.textContent = fallback;
+        }
+      }
+
+      if (imgEl.complete && imgEl.naturalWidth > 0) {
+        tryRead();
+      } else {
+        imgEl.addEventListener('load', tryRead, { once: true });
+        imgEl.addEventListener('error', () => {
+          clearTimeout(timer);
+          valueEl.textContent = fallback;
+        }, { once: true });
+      }
+    }
+
     /* ── ID inválido ── */
     if (!m) {
       content.innerHTML = `
@@ -209,33 +224,26 @@
       </div>`;
     } else {
 
-      /* Título de pestaña */
       document.title = m.name.replace('<br>', ' ') + ' — M Portfolio';
-      document.getElementById('nav-num').textContent = m.num + ' / 08';
+      document.getElementById('nav-num').textContent = m.num + ' / 11';
 
-      /* ── Bloque de videos (solo si hay) ── */
       const videosHTML = m.videos && m.videos.length ? `
       <div class="video-section">
         <div class="section-label">Videos — ${m.videos.length} video${m.videos.length !== 1 ? 's' : ''}</div>
         <div class="video-grid${m.videos.length === 1 ? ' single' : ''}">
           ${m.videos.map(vid => `
             <div class="video-item">
-              <iframe
-                src="https://drive.google.com/file/d/${vid}/preview"
-                allow="autoplay"
-                allowfullscreen
-                loading="lazy">
-              </iframe>
-            </div>
-          `).join('')}
+              <iframe src="https://drive.google.com/file/d/${vid}/preview"
+                allow="autoplay" allowfullscreen loading="lazy"></iframe>
+            </div>`).join('')}
         </div>
       </div>` : '';
 
-      /* Esqueleto de la página */
       content.innerHTML = `
       <section class="hero">
         <div class="hero-img-wrap">
-          <img id="hero-img" src="${m.folder}${m.file}(1).${m.ext}" alt="${m.name.replace('<br>', ' ')}" onerror="this.src='${m.fallback}'">
+          <img id="hero-img" src="${m.folder}${m.file}(1).${m.ext}"
+            alt="${m.name.replace('<br>', ' ')}" onerror="this.src='${m.fallback}'">
         </div>
         <div class="hero-info">
           <div class="profile-tag">${m.tag}</div>
@@ -279,12 +287,59 @@
         probe.onload = function () {
           loaded.push(src);
           const i = loaded.length - 1;
+
+          /* Contenedor */
           const item = document.createElement('div');
           item.className = 'gallery-item' + (index === 1 ? ' featured' : '');
           item.dataset.idx = i;
-          item.innerHTML = `<img src="${src}" alt="${m.file} ${index}">`;
+
+          /* Imagen */
+          const img = document.createElement('img');
+          img.src = src;
+          img.alt = `${m.file} ${index}`;
+          item.appendChild(img);
+
+
+
+          /* Forzar contexto de apilamiento propio para evitar que
+             el transform del img tape el overlay */
+          item.style.position = 'relative';
+          item.style.isolation = 'isolate';   /* ← clave: nuevo stacking context */
+
+          /* Panel de fecha — siempre visible en la parte inferior */
+          const dateEl = document.createElement('div');
+          Object.assign(dateEl.style, {
+            position:      'absolute',
+            bottom:        '0',
+            left:          '0',
+            right:         '0',
+            background:    'linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.45) 55%, transparent 100%)',
+            color:         '#ffffff',
+            fontFamily:    "'DM Mono', monospace",
+            fontSize:      '0.7rem',
+            padding:       '36px 10px 10px',
+            textAlign:     'center',
+            zIndex:        '10',
+            pointerEvents: 'none',
+            opacity:       '0',
+            transition:    'opacity 0.3s ease',
+            boxSizing:     'border-box',
+          });
+          dateEl.innerHTML =
+            `<span style="display:block;font-size:0.58rem;opacity:0.75;text-transform:uppercase;letter-spacing:0.12em;margin-bottom:3px">Fecha</span>` +
+            `<span class="dv" style="display:block;font-size:0.76rem;letter-spacing:0.04em">leyendo…</span>`;
+          item.appendChild(dateEl);
+
+          /* Hover via JS */
+          item.addEventListener('mouseenter', () => { dateEl.style.opacity = '1'; });
+          item.addEventListener('mouseleave', () => { dateEl.style.opacity = '0'; });
+
           galleryEl.appendChild(item);
           photoCount.textContent = loaded.length + ' foto' + (loaded.length !== 1 ? 's' : '');
+
+          /* Leer EXIF (con fallback al número de foto) */
+          attachExifDate(img, dateEl, loaded.length);
+
           checkAndAdd(index + 1);
         };
 
@@ -299,12 +354,7 @@
 
       /* ── Lightbox ── */
       let cur = 0;
-
-      function openLb(i) {
-        cur = i;
-        lbImg.src = loaded[cur];
-        lbEl.classList.add('open');
-      }
+      function openLb(i) { cur = i; lbImg.src = loaded[cur]; lbEl.classList.add('open'); }
       function closeLb() { lbEl.classList.remove('open'); }
       function lbNav(d) {
         if (!loaded.length) return;
@@ -332,5 +382,4 @@
   </script>
 
 </body>
-
 </html>
